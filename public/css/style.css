@@ -1,0 +1,62 @@
+
+
+/* increase the height and width as you desire */
+
+
+.input-field input:focus + label {
+    color: #fff !important;
+  }
+  /* label underline focus #ff7043 */
+  .row .input-field input:focus {
+    border-bottom: 1px solid #ff7043 !important;
+    box-shadow: 0 1px 0 0 #ff7043 !important
+  }
+
+
+  #results .res {
+    color: #ff7043 !important;
+  }
+
+  .input-field .prefix.active {
+    color: #ff7043;
+   }
+
+   .picker__date-display
+{
+  background-color: #ff7043;
+}
+.picker__weekday-display {
+   color: #ff7043;
+}
+
+
+ .picker__nav--prev:hover {
+        color: #ff7043;}
+.picker__nav--next:hover {
+        color: #ff7043;}
+ .picker__nav--prev:before {
+        color: #ff7043;}
+ .picker__nav--next:before {
+     color: #ff7043;}
+     .picker__today { color: #ff7043; }
+
+
+
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected
+{
+  background-color: #ff7043;
+}
+
+.fixed [type="checkbox"] .fixed  {
+  pointer-events: auto;
+}
+.ui-helper-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
