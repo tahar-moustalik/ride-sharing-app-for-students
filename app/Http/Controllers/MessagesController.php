@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Utilisateur;
 use Carbon\Carbon;
 use App\Profils;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+
 class MessagesController extends Controller
 {
     public function index(Request $request)
@@ -19,21 +21,21 @@ class MessagesController extends Controller
         $infos=[];
         $threads = Thread::getAllLatest()->get();
 
-       foreach ($threads as $thread) {
-      $users = Message::where('thread_id',$thread->id)->get();
-      $photo= Profils::where('id_user',$users[0]->user_id)
+        foreach ($threads as $thread) {
+            $users = Message::where('thread_id', $thread->id)->get();
+            $photo= Profils::where('id_user', $users[0]->user_id)
               ->select('photo')->get();
-        $login= Utilisateur::where('id_user',$users[0]->user_id)
-               ->select('login','id_user')->get();
-     Carbon::setLocale('fr');
-      if($login[0]['login'] != Auth::user()->login){
-        $infos[]= ['id'=>$thread->id,'subject' => $thread->subject,
+            $login= Utilisateur::where('id_user', $users[0]->user_id)
+               ->select('login', 'id_user')->get();
+            Carbon::setLocale('fr');
+            if ($login[0]['login'] != Auth::user()->login) {
+                $infos[]= ['id'=>$thread->id,'subject' => $thread->subject,
       'created'=>$thread->created_at->diffForHumans(),'updated'=>$thread->updated_at
     ,'body'=>$users[0]->body,'id_user' => $login[0]->id_user,'login'=>$login[0]->login,
        'photo'=>$photo[0]->photo,'type'=>$users[0]->type_mess,'id_trns' => $users[0]->id_trns,'type_thread'=>$thread->type_thread];
-      }
-       }
-       return response()->json($infos);
+            }
+        }
+        return response()->json($infos);
     }
     public function show($id)
     {
@@ -46,12 +48,12 @@ class MessagesController extends Controller
         $userId = Auth::id();
         $users = Utilisateur::whereNotIn('id_user', $thread->participantsUserIds($userId))->get();
         $thread->markAsRead($userId);
-    return view('show', compact('thread', 'users'));
+        return view('show', compact('thread', 'users'));
     }
     public function create()
     {
         $users = Utilisateur::where('id_user', '!=', Auth::id())->get();
-        return view('create')->with('users',$users);
+        return view('create')->with('users', $users);
     }
 
     public function store()
@@ -66,14 +68,14 @@ class MessagesController extends Controller
             'type_thread' => 0,
         ]);   */
         // Message
-        $login= Utilisateur::where('login',$input['to_email'])->get();
-       /* Message::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => $input['message'],
-            'type_mess' => 0,
+        $login= Utilisateur::where('login', $input['to_email'])->get();
+        /* Message::create([
+             'thread_id' => $thread->id,
+             'user_id' => Auth::id(),
+             'body' => $input['message'],
+             'type_mess' => 0,
 
-        ]);  */
+         ]);  */
         $message  = new Message();
         $message->thread_id = $thread->id;
         $message->user_id = Auth::id();
@@ -116,6 +118,6 @@ class MessagesController extends Controller
         if (Input::has('recipients')) {
             $thread->addParticipant(Input::get('recipients'));
         }
-        return redirect()->route('messages.show',$id);
+        return redirect()->route('messages.show', $id);
     }
 }

@@ -9,5 +9,4 @@ class Universite extends Model
     protected $table = 'universite';
     protected $primaryKey = 'id_univ';
     protected $fillable = ['acro_univ','adr','nom'];
-
 }

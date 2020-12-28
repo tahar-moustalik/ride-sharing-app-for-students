@@ -7,6 +7,7 @@ use App\verifier;
 use App\Profils;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
+
 class verifiercontroller extends Controller
 {
     /**
@@ -37,30 +38,30 @@ class verifiercontroller extends Controller
      */
     public function store(Request $request)
     {
-$this->validate($request, [
+        $this->validate($request, [
           'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
       ]);
-if(Input::hasFile('photo')){
-  $id_user = intval(Auth::id());
-  $queries = Profils::where('id_user',$id_user)->first();
+        if (Input::hasFile('photo')) {
+            $id_user = intval(Auth::id());
+            $queries = Profils::where('id_user', $id_user)->first();
 
 
-$verifier= new verifier();
-$verifier->id_user = $id_user;
-$verifier->id_admin = 1;
-$verifier->cin = Input::get('cin');
+            $verifier= new verifier();
+            $verifier->id_user = $id_user;
+            $verifier->id_admin = 1;
+            $verifier->cin = Input::get('cin');
 
-$file=Input::file('photo');
-$name = $queries->nom.'-'.$queries->prenom.'.'.$file->getClientOriginalExtension();
-$destinationPath = public_path('/uploadcin');
-$file->move($destinationPath, $name);
-$verifier->img_cin=$name;
+            $file=Input::file('photo');
+            $name = $queries->nom.'-'.$queries->prenom.'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('/uploadcin');
+            $file->move($destinationPath, $name);
+            $verifier->img_cin=$name;
 
 
-$verifier->save();
-}
-return view('ver_cin');
-}
+            $verifier->save();
+        }
+        return view('ver_cin');
+    }
     /**
      * Display the specified resource.
      *

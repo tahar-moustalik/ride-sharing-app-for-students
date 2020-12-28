@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use App;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,9 +24,8 @@ class UtiProvider extends ServiceProvider
      */
     public function register()
     {
-         App::bind('Utilisateur', function(){
-           return new App\Utilisateur;
-
- });
+        App::bind('Utilisateur', function () {
+            return new App\Utilisateur;
+        });
     }
 }
